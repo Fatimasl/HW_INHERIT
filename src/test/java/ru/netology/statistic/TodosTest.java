@@ -37,7 +37,7 @@ public class TodosTest {
     }
 
     @Test
-    public void shouldReturnMatchedNotEmptyArray() {
+    public void shouldReturnMatchedArrayWithFewTasks() {
         todos.add(simpleTask);
         todos.add(epic);
         todos.add(meeting);
@@ -61,6 +61,37 @@ public class TodosTest {
         String query = "Хлеб";
 
         Task[] expected = { epic, simpleTask2, meeting2 };
+        Task[] actual = todos.search(query);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+
+    @Test
+    public void shouldReturnMatchedArrayWithOnlyOneTask() {
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        SimpleTask simpleTask2 = new SimpleTask(6, "Хлеб купить");
+
+        String[] subtasks = { "Джем", "Конфеты", "Яйца" };
+        Epic epic2 = new Epic(56, subtasks);
+
+        Meeting meeting2 = new Meeting(
+                556,
+                "Выкатка 2й версии приложения",
+                "Приложение ХлебоБанка",
+                "В среду до обеда"
+        );
+
+        todos.add(simpleTask2);
+        todos.add(epic2);
+        todos.add(meeting2);
+
+        String query = "Конфеты";
+
+        Task[] expected = {epic2};
         Task[] actual = todos.search(query);
 
         Assertions.assertArrayEquals(expected, actual);
